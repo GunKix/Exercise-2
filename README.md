@@ -68,7 +68,7 @@ Este programa demuestra por qué la **POO** es poderosa y útil mediante:
 ### Código del diagrama
 
 <details>
-<summary>📐 Ver código PlantUML</summary>
+<summary> Ver código PlantUML</summary>
 
 ```plantuml
 @startuml
