@@ -1,52 +1,76 @@
-<img width="3826" height="1433" alt="PlantUML" src="https://github.com/user-attachments/assets/0bcf641d-790c-4b54-9e67-a79ca1f6b951" />
-Exercise #2 Bryan Leiva
+> **Exercise #2 Bryan Leiva**  
+> Una demostración práctica de los conceptos fundamentales de la Programación Orientada a Objetos (POO) en Java, utilizando un sistema donde personas con diferentes profesiones pueden tener poderes especiales.
 
-El programa "Mutantes" es una demostración práctica de los conceptos fundamentales de POO en Java, utilizando un sistema donde personas con diferentes profesiones pueden tener poderes especiales.
-¿Qué hace el programa?
-El programa crea personas que pueden tener diferentes profesiones (Doctor, Músico, Profesor) y diferentes poderes (Agua, Fuego, Aire, Tierra, Láser). El objetivo principal es demostrar cómo funcionan la herencia y el polimorfismo en Java.
+---
 
-Funcionamiento paso a paso:
-1. Primero, crea personas básicas
-El programa comienza creando personas simples (Bryan y Loana) para demostrar conceptos básicos como constructores, getters, setters y cómo funcionan las referencias a objetos.
+## ¿Qué hace el programa?
 
-2. Luego, crea "mutantes" con profesiones y poderes
-Se crean 5 personas con diferentes combinaciones:
+El programa crea personas que pueden tener diferentes **profesiones** (`Doctor`, `Músico`, `Profesor`) y diferentes **poderes** (`Agua`, `Fuego`, `Aire`, `Tierra`, `Láser`). El objetivo principal es demostrar cómo funcionan la **herencia** y el **polimorfismo** en Java.
 
--Una doctora con poder de fuego
--Un músico con poder de agua
--Un profesor con poder de tierra
--Un doctor con poder de aire
--Un músico con poder láser
+---
 
-3. Demuestra el polimorfismo
-Cuando el programa hace que todas las personas "canten" o "trabajen", cada una lo hace de manera diferente según su profesión:
+##  Funcionamiento paso a paso
 
--El doctor canta como doctor
--El músico canta como músico
--El profesor canta como profesor
+###  Creación de personas básicas
+El programa comienza creando personas simples (`Bryan` y `Loana`) para demostrar conceptos básicos como:
+- Constructores
+- Getters y Setters
+- Referencias a objetos
 
-Esto es polimorfismo: el mismo mensaje (cantar()) produce comportamientos diferentes según el tipo de objeto que lo recibe.
+### Creación de "mutantes" con profesiones y poderes
+Se crean **5 personas** con diferentes combinaciones:
 
-4. Muestra acciones específicas
+| Persona | Profesión | Poder |
+|---------|-----------|-------|
+| 1 | Doctora | Fuego |
+| 2 | Músico | Agua |
+| 3 | Profesor | Tierra |
+| 4 | Doctor | Aire |
+| 5 | Músico | Láser |
+
+### 3️ Demostración de polimorfismo
+Cuando el programa hace que todas las personas **"canten"** o **"trabajen"**, cada una lo hace de manera diferente según su profesión:
+
+- El doctor canta como doctor
+- El músico canta como músico
+- El profesor canta como profesor
+
+Esto es **polimorfismo**: el mismo mensaje (`cantar()`) produce comportamientos diferentes según el tipo de objeto que lo recibe.
+
+###  Acciones específicas por profesión
 Cada profesión tiene habilidades únicas:
 
--Los doctores pueden realizar cirugías
--Los músicos pueden dar conciertos
--Los profesores pueden calificar exámenes
+- **Doctores** → Pueden realizar cirugías
+- **Músicos** → Pueden dar conciertos
+- **Profesores** → Pueden calificar exámenes
 
-5. Demuestra independencia entre profesión y poder
-Los poderes son completamente independientes de la profesión. Un doctor puede tener poder de fuego, y un profesor puede tener el mismo poder. Incluso pueden intercambiar poderes entre ellos, demostrando que la profesión y el poder son conceptos separados que funcionan de manera independiente.
+### Independencia entre profesión y poder
+Los poderes son completamente **independientes** de la profesión. Un doctor puede tener poder de fuego, y un profesor puede tener el mismo poder. Incluso pueden intercambiar poderes entre ellos, demostrando que la profesión y el poder son conceptos separados que funcionan de manera independiente.
 
-¿Por qué es importante?
-Este programa demuestra por qué POO es poderoso y útil mediante la:
+---
 
--Reutilización de código: Todas las profesiones comparten el código base de Persona
--Flexibilidad: Se pueden agregar nuevas profesiones o poderes sin modificar el código existente
--Organización: El código está estructurado en paquetes (personas, profesion, poderes)
+##  ¿Por qué es importante?
 
----------------------------------------------------------------------------------------------------------------
+Este programa demuestra por qué la **POO** es poderosa y útil mediante:
 
-Diagrama PlantUML
+- **Reutilización de código**: Todas las profesiones comparten el código base de `Persona`
+- **Flexibilidad**: Se pueden agregar nuevas profesiones o poderes sin modificar el código existente
+- **Organización**: El código está estructurado en paquetes (`personas`, `profesion`, `poderes`)
+
+---
+
+##  Diagrama de clases (PlantUML)
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0bcf641d-790c-4b54-9e67-a79ca1f6b951" alt="PlantUML" width="80%"/>
+</p>
+
+### Código del diagrama
+
+<details>
+<summary>📐 Ver código PlantUML</summary>
+
+```plantuml
 @startuml
 ' ============================================
 ' TITLE: Mutantes Project Class Diagram
