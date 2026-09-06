@@ -1,3 +1,4 @@
+<img width="3826" height="1433" alt="PlantUML" src="https://github.com/user-attachments/assets/0bcf641d-790c-4b54-9e67-a79ca1f6b951" />
 Exercise #2 Bryan Leiva
 
 El programa "Mutantes" es una demostración práctica de los conceptos fundamentales de POO en Java, utilizando un sistema donde personas con diferentes profesiones pueden tener poderes especiales.
