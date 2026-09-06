@@ -1,285 +1,266 @@
-> **Exercise #2 Bryan Leiva**  
-> Una demostración práctica de los conceptos fundamentales de la Programación Orientada a Objetos (POO) en Java, utilizando un sistema donde personas con diferentes profesiones pueden tener poderes especiales.
+#  Case 1 - Mutant Battle
+
+> **Bryan Leiva - Daniel Sánchez**  
+> Modelado y especificación de un juego de batalla entre mutantes, aplicando conceptos de POO como herencia, composición y polimorfismo.
 
 ---
 
-## ¿Qué hace el programa?
+##  Especificación del Caso 1
 
-El programa crea personas que pueden tener diferentes **profesiones** (`Doctor`, `Músico`, `Profesor`) y diferentes **poderes** (`Agua`, `Fuego`, `Aire`, `Tierra`, `Láser`). El objetivo principal es demostrar cómo funcionan la **herencia** y el **polimorfismo** en Java.
+###  Paquete `model`
 
----
+#### Clase `Mutant`
 
-##  Funcionamiento paso a paso
+| Atributo | Tipo | Descripción |
+|----------|------|-------------|
+| `id` | `int` | Identificador único del mutante |
+| `x` | `double` | Posición en el eje X del campo |
+| `y` | `double` | Posición en el eje Y del campo |
+| `energy` | `int` | Energía actual (inicial: 100) |
+| `defenseCapacity` | `int` | Capacidad de defensa (valor entre 1 y 3) |
+| `power` | `MutantPower` | Poder asociado al mutante |
+| `isAlive` | `boolean` | Estado de vida del mutante |
 
-###  Creación de personas básicas
-El programa comienza creando personas simples (`Bryan` y `Loana`) para demostrar conceptos básicos como:
-- Constructores
-- Getters y Setters
-- Referencias a objetos
-
-### Creación de "mutantes" con profesiones y poderes
-Se crean **5 personas** con diferentes combinaciones:
-
-| Persona | Profesión | Poder |
-|---------|-----------|-------|
-| 1 | Doctora | Fuego |
-| 2 | Músico | Agua |
-| 3 | Profesor | Tierra |
-| 4 | Doctor | Aire |
-| 5 | Músico | Láser |
-
-### 3️ Demostración de polimorfismo
-Cuando el programa hace que todas las personas **"canten"** o **"trabajen"**, cada una lo hace de manera diferente según su profesión:
-
-- El doctor canta como doctor
-- El músico canta como músico
-- El profesor canta como profesor
-
-Esto es **polimorfismo**: el mismo mensaje (`cantar()`) produce comportamientos diferentes según el tipo de objeto que lo recibe.
-
-###  Acciones específicas por profesión
-Cada profesión tiene habilidades únicas:
-
-- **Doctores** → Pueden realizar cirugías
-- **Músicos** → Pueden dar conciertos
-- **Profesores** → Pueden calificar exámenes
-
-### Independencia entre profesión y poder
-Los poderes son completamente **independientes** de la profesión. Un doctor puede tener poder de fuego, y un profesor puede tener el mismo poder. Incluso pueden intercambiar poderes entre ellos, demostrando que la profesión y el poder son conceptos separados que funcionan de manera independiente.
+| Método | Visibilidad | Descripción |
+|--------|-------------|-------------|
+| `move()` | `private` | Actualiza las coordenadas del mutante según su motor de movimiento dentro de los límites del campo |
+| `attack()` | `private` | Reduce la energía del oponente considerando el daño del poder y si el objetivo se defendió |
+| `defend()` | `private` | Activa el estado temporal de defensa para mitigar el impacto del próximo ataque recibido |
 
 ---
 
-##  ¿Por qué es importante?
+#### Clase `MutantPower`
 
-Este programa demuestra por qué la **POO** es poderosa y útil mediante:
+| Atributo | Tipo | Descripción |
+|----------|------|-------------|
+| `damageCapacity` | `int` | Capacidad de daño (inicial entre 1 y 3, máximo 7) |
+| `type` | `Powers` | Tipo de poder (ver enumeración) |
 
-- **Reutilización de código**: Todas las profesiones comparten el código base de `Persona`
-- **Flexibilidad**: Se pueden agregar nuevas profesiones o poderes sin modificar el código existente
-- **Organización**: El código está estructurado en paquetes (`personas`, `profesion`, `poderes`)
+| Método | Visibilidad | Descripción |
+|--------|-------------|-------------|
+| `increaseDamage()` | `private` | Incrementa en una unidad la capacidad de daño del poder si no supera el límite máximo de 7 |
 
 ---
 
-##  Diagrama de clases (PlantUML)
+#### Enumeración `Powers`
+
+Lista de tipos de poderes disponibles:
+
+| Valor |
+|-------|
+| `FIRE` |
+| `WATER` |
+| `EARTH` |
+| `WIND` |
+| `ELECTRICITY` |
+| `ROCK` |
+| `LASER` |
+| `BEAST` |
+| `ICE` |
+| `THORNS` |
+| `SAND` |
+
+---
+
+###  Paquete `layer`
+
+#### Clase `Battlefield`
+
+| Atributo | Tipo | Descripción |
+|----------|------|-------------|
+| `width` | `int` | Ancho del campo de batalla |
+| `height` | `int` | Alto del campo de batalla |
+| `teamA` | `Team` | Equipo A |
+| `teamB` | `Team` | Equipo B |
+| `scoreboard` | `Scoreboard` | Marcador del juego |
+
+| Método | Visibilidad | Descripción |
+|--------|-------------|-------------|
+| `initializeTeams()` | `private` | Genera y configura ambos equipos con un tamaño simétrico válido entre 3 y 11 integrantes |
+| `checkGameOver()` | `private` | Comprueba si algún equipo se quedó sin mutantes vivos para finalizar la partida |
+
+---
+
+#### Clase `Team`
+
+| Atributo | Tipo | Descripción |
+|----------|------|-------------|
+| `name` | `String` | Nombre del equipo |
+| `color` | `Color` | Color representativo |
+| `shield` | `String` | Escudo del equipo |
+| `members` | `List<Mutant>` | Lista de mutantes (entre 3 y 11) |
+
+| Método | Visibilidad | Descripción |
+|--------|-------------|-------------|
+| `addMember()` | `private` | Añade un nuevo mutante a la lista del equipo verificando que no exceda el límite permitido |
+| `hasAliveMembers()` | `public` | Retorna `true` si al menos un miembro del equipo sigue vivo |
+
+---
+
+#### Clase `Scoreboard`
+
+| Atributo | Tipo | Descripción |
+|----------|------|-------------|
+| `aliveTeamA` | `int` | Cantidad de mutantes vivos del equipo A |
+| `deadTeamA` | `int` | Cantidad de mutantes muertos del equipo A |
+| `aliveTeamB` | `int` | Cantidad de mutantes vivos del equipo B |
+| `deadTeamB` | `int` | Cantidad de mutantes muertos del equipo B |
+
+| Método | Visibilidad | Descripción |
+|--------|-------------|-------------|
+| `updateScores()` | `private` | Modifica los contadores de mutantes vivos y muertos de cada equipo según su estado actual |
+
+---
+
+#### Clase `MovementEngine`
+
+| Atributo | Tipo | Descripción |
+|----------|------|-------------|
+| `speed` | `double` | Velocidad de movimiento |
+| `x` | `double` | Posición actual en X |
+| `y` | `double` | Posición actual en Y |
+| `radius` | `double` | Radio de influencia o alcance |
+| `pattern` | `Pattern` | Patrón de movimiento asignado |
+
+| Método | Visibilidad | Descripción |
+|--------|-------------|-------------|
+| `calculateNextPosition()` | `private` | Calcula la siguiente posición espacial en función de la velocidad y el patrón asignado |
+
+---
+
+#### Enumeración `Pattern`
+
+Patrones de movimiento disponibles:
+
+| Valor |
+|-------|
+| `LINEAR` |
+| `CIRCULAR` |
+| `RANDOM` |
+| `ZIGZAG` |
+
+---
+
+##  Diagrama de Clases (PlantUML)
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/0bcf641d-790c-4b54-9e67-a79ca1f6b951" alt="PlantUML" width="80%"/>
+  <img src="https://github.com/user-attachments/assets/94fbf554-8f4c-4919-90ca-a1024149d0f8" alt="PlantUML - Diagrama de Clases Mutants" width="100%"/>
 </p>
 
-### Código del diagrama
+---
+
+##  Código PlantUML
 
 <details>
-<summary> Ver código PlantUML</summary>
+<summary>Ver código del diagrama</summary>
 
 ```plantuml
 @startuml
-' ============================================
-' TITLE: Mutantes Project Class Diagram
-' ============================================
-title Mutantes Project - Class Diagram\n(Herencia, Polimorfismo y Poderes)
 
-' ============================================
-' PACKAGES
-' ============================================
-package "Mutantes.personas" {
-    class Persona {
-        - byte edad
-        - String nombre
-        - static int totalPersonas
-        - Ipower poder
-        --
-        + Persona()
-        + Persona(byte pEdad, String pNombre)
-        + Persona(String pNombre, byte pEdad)
-        + Persona(String nombre)
-        + String getNombre()
-        + void setNombre(String pNombre)
-        + byte getEdad()
-        + void setEdad(byte pEdad)
-        + static int getTotalPersonas()
-        + void cantar()
-        + void trabajar()
-        + void setPoder(Ipower pPoder)
-        + void atacar()
+package model {
+
+    class Mutant {
+        +id : int
+        +x : double
+        +y : double
+        +energy : int = 100
+        +defenseCapacity : int <<1..3>>
+        +power : MutantPower
+        +isAlive : boolean
+
+        -move() : void
+        -attack() : void
+        -defend() : void
+    }
+
+    class MutantPower {
+        +damageCapacity : int <<1..3 initial, max 7>>
+
+        -increaseDamage() : void
+    }
+
+    enum Powers {
+        FIRE
+        WATER
+        EARTH
+        WIND
+        ELECTRICITY
+        ROCK
+        LASER
+        BEAST
+        ICE
+        THORNS
+        SAND
+    }
+
+    MutantPower --> Powers : type
+    Mutant --> MutantPower : has
+}
+
+package layer {
+
+    class Battlefield {
+        +width : int
+        +height : int
+        +teamA : Team
+        +teamB : Team
+        +scoreboard : Scoreboard
+
+        -initializeTeams() : void
+        -checkGameOver() : void
+    }
+
+    class Team {
+        +name : String
+        +color : Color
+        +shield : String
+        +members : List<Mutant>
+
+        -addMember() : void
+        +hasAliveMembers() : boolean
+    }
+
+    class Scoreboard {
+        +aliveTeamA : int
+        +deadTeamA : int
+        +aliveTeamB : int
+        +deadTeamB : int
+
+        -updateScores() : void
+    }
+
+    class MovementEngine {
+        +speed : double
+        +x : double
+        +y : double
+        +radius : double
+        +pattern : Pattern
+
+        -calculateNextPosition() : void
+    }
+
+    enum Pattern {
+        LINEAR
+        CIRCULAR
+        RANDOM
+        ZIGZAG
     }
 }
 
-package "Mutantes.poderes" {
-    interface Ipower {
-        + void dispararPoder()
-    }
-    
-    class Poweragua {
-        + Poweragua()
-        + void dispararPoder()
-    }
-    
-    class Poweraire {
-        + Poweraire()
-        + void dispararPoder()
-    }
-    
-    class Powerfuego {
-        + Powerfuego()
-        + void dispararPoder()
-    }
-    
-    class Powerlaser {
-        + Powerlaser()
-        + void dispararPoder()
-    }
-    
-    class Powertierra {
-        + Powertierra()
-        + void dispararPoder()
-    }
-}
+'=========================
+' Relationships
+'=========================
 
-package "Mutantes.profesion" {
-    class Doctor {
-        - String especialidad
-        - String hospital
-        - static int totalDeDoctores
-        --
-        + Doctor(String pNombre, byte pEdad, String pEspecialidad, String pHospital)
-        + String getEspecialidad()
-        + String getHospital()
-        + void setHospital(String pHospital)
-        + static int getTotalDeDoctores()
-        + void cantar()
-        + void trabajar()
-        + void realizarCirugia()
-    }
-    
-    class Musico {
-        - String instrumento
-        - String generoMusical
-        - String banda
-        - static int totalMusicistas
-        --
-        + Musico(String pNombre, byte pEdad, String pInstrumento, String pGeneroMusical, String pBanda)
-        + String getInstrumento()
-        + void setInstrumento(String pInstrumento)
-        + String getGeneroMusical()
-        + void setGeneroMusical(String pGeneroMusical)
-        + String getBanda()
-        + void setBanda(String pBanda)
-        + static int getTotalMusicistas()
-        + void cantar()
-        + void trabajar()
-        + void tocarConcierto()
-    }
-    
-    class Profesor {
-        - String materia
-        - String institucion
-        - int aniosExperiencia
-        - static int totalMaestros
-        --
-        + Profesor(String pNombre, byte pEdad, String pMateria, String pInstitucion, int pAniosExperiencia)
-        + String getMateria()
-        + void setMateria(String pMateria)
-        + String getInstitucion()
-        + void setInstitucion(String pInstitucion)
-        + int getAniosExperiencia()
-        + void setAniosExperiencia(int pAniosExperiencia)
-        + static int getTotalMaestros()
-        + void cantar()
-        + void trabajar()
-        + void calificarExamenes()
-    }
-}
+Battlefield *-- "1" Team : teamA
+Battlefield *-- "1" Team : teamB
+Battlefield *-- "1" Scoreboard
 
-package "Mutantes.programaMutante" {
-    class quickstart {
-        + static void main(String[] args)
-    }
-}
+Team *-- "3..11" Mutant : members
 
-' ============================================
-' RELATIONSHIPS
-' ============================================
+Mutant --> MovementEngine : uses
 
-' Inheritance (extends)
-Doctor --|> Persona : extends
-Musico --|> Persona : extends
-Profesor --|> Persona : extends
-
-' Interface implementation (implements)
-Poweragua ..|> Ipower : implements
-Poweraire ..|> Ipower : implements
-Powerfuego ..|> Ipower : implements
-Powerlaser ..|> Ipower : implements
-Powertierra ..|> Ipower : implements
-
-' Association (uses)
-Persona --> Ipower : has a\n(composition)
-quickstart ..> Persona : uses
-quickstart ..> Doctor : uses
-quickstart ..> Musico : uses
-quickstart ..> Profesor : uses
-quickstart ..> Poweragua : creates
-quickstart ..> Poweraire : creates
-quickstart ..> Powerfuego : creates
-quickstart ..> Powerlaser : creates
-quickstart ..> Powertierra : creates
-
-' ============================================
-' NOTES FOR CLARITY
-' ============================================
-note right of Persona
-  Clase base abstracta
-  Contiene el poder (Ipower)
-  y métodos que serán
-  sobrescritos por las
-  clases hijas
-end note
-
-note right of Ipower
-  Interfaz que define
-  el comportamiento
-  de disparar poder
-end note
-
-note bottom of quickstart
-  Clase principal (Main)
-  Demuestra:
-  - Herencia
-  - Polimorfismo
-  - Independencia de poderes
-end note
-
-note top of Doctor
-  Sobrescribe cantar() y trabajar()
-  Añade métodos específicos:
-  - realizarCirugia()
-end note
-
-note top of Musico
-  Sobrescribe cantar() y trabajar()
-  Añade métodos específicos:
-  - tocarConcierto()
-end note
-
-note top of Profesor
-  Sobrescribe cantar() y trabajar()
-  Añade métodos específicos:
-  - calificarExamenes()
-end note
-
-' ============================================
-' LEGEND
-' ============================================
-legend bottom left
-  | Symbol | Meaning |
-  |--------|---------|
-  | --|>   | Inheritance (extends) |
-  | ..|>   | Interface implementation (implements) |
-  | -->    | Association (uses/has a) |
-  | ..>    | Dependency (uses) |
-  | -      | Private |
-  | +      | Public |
-  | #      | Protected |
-  | static | Class-level member |
-end legend
+Scoreboard ..> Team : monitors
+Battlefield ..> Team
+Battlefield ..> Scoreboard
 
 @enduml
